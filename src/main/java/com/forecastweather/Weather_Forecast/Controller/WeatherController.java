@@ -12,8 +12,8 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class WeatherController {
-    private final String apiKey = "cfbcdcfe53cab791af2a5dc83b3faee0";
-    public final String urlTemplate = "http://api.openweathermap.org/data/2.5/forecast?id=%s&appid="
+    private final String apiKey = "864e916ad4cf8a33ac586d2a76babcd4";
+    public final String urlTemplate = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid="
             + apiKey + "&units=metric";
 
     @GetMapping("/weather")

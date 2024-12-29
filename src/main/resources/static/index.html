@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .weather-description {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .temperature {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e57373;
+            margin-bottom: 10px;
+        }
+
+        .humidity {
+            font-size: 1em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<h1>Weather Forecast</h1>
+<form action="/weather" method="get">
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required>
+    <button type="submit">Get Weather</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const city = urlParams.get('city');
+    if (city) {
+        fetch(`/weather?city=${city}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = `
+                    <h2>Weather in ${city}</h2>
+                    <p class="weather-description">Description: ${data.description}</p>
+                    <p class="temperature">Temperature: ${data.temperature} °C</p>
+                    <p class="humidity">Humidity: ${data.humidity} %</p>
+                `;
+            });
+    }
+</script>
+</body>
+</html>
