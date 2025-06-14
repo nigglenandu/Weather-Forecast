@@ -13,20 +13,17 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class WeatherController {
     private final String apiKey = "864e916ad4cf8a33ac586d2a76babcd4";
-    private final String urlTemplate = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=" + apiKey + "&units=metric";
-    private final RestTemplate restTemplate;
-
-    public WeatherController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    public final String urlTemplate = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid="
+            + apiKey + "&units=metric";
 
     @GetMapping("/weather")
-    public ResponseEntity<Object> getWeather(@RequestParam String city) {
-        try {
-            String url = String.format(urlTemplate, city);
-            String response = restTemplate.getForObject(url, String.class);
-            JSONObject jsonObject = new JSONObject(response);
+    public ResponseEntity<Object> getWeather(@RequestParam String city){
+        RestTemplate restTemplate = new RestTemplate();
+        String url = String.format(urlTemplate, city);
+        String response = restTemplate.getForObject(url, String.class);
 
+        try {
+            JSONObject jsonObject = new JSONObject(response);
             String description = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
             double temperature = jsonObject.getJSONObject("main").getDouble("temp");
             int humidity = jsonObject.getJSONObject("main").getInt("humidity");
